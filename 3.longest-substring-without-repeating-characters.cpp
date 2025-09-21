@@ -1,7 +1,5 @@
 // @leet imports start
-#include <algorithm>
 #include <bits/stdc++.h>
-#include <unordered_map>
 using namespace std;
 // @leet imports end
 
@@ -9,23 +7,19 @@ using namespace std;
 class Solution {
 public:
   int lengthOfLongestSubstring(string s) {
+    int last[128];
+    fill(begin(last), end(last), -1);
+
     int result = 0;
-    for (int i = 0; i < s.size(); i++) {
-      int count = 0;
-      unordered_map<char, bool> existCharacter;
+    int l = 0;
 
-      for (int j = i; j < s.size(); j++) {
-        if (existCharacter[s[j]]) {
-          break;
-        } else {
-          existCharacter[s[j]] = true;
-          count++;
-        }
+    for (int r = 0; r < s.size(); r++) {
+      if (last[s[r]] >= l) {
+        l = last[s[r]] + 1;
       }
-
-      result = max(result, count);
+      last[s[r]] = r;
+      result = max(result, r - l + 1);
     }
-
     return result;
   }
 };
